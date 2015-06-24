@@ -1,3 +1,2 @@
-#!/usr/bin/env bash
-require("babel/register")();
-require("./main")();
+#!/usr/bin/env node
+require("./lib/main")();
