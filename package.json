@@ -2,7 +2,8 @@
   "name": "atom-updater",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
+  "bin": "index.js",
   "author": "Ryan Leckey <leckey.ryan@gmail.com>",
   "license": "MIT",
   "repository": {
