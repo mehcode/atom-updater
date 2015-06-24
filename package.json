@@ -29,7 +29,8 @@
     "gulp-git": "^1.2.4",
     "gulp-load-plugins": "^1.0.0-rc.1",
     "gulp-shell": "^0.4.2",
-    "gulp-tag-version": "^1.2.1"
+    "gulp-tag-version": "^1.2.1",
+    "lodash": "^3.9.3"
   },
   "scripts": {
     "prepublish": "gulp build"
