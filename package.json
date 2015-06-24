@@ -1,0 +1,24 @@
+{
+  "name": "atom-updater",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Ryan Leckey <leckey.ryan@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mehcode/atom-updater.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mehcode/atom-updater/issues"
+  },
+  "homepage": "https://github.com/mehcode/atom-updater",
+  "dependencies": {
+    "babel": "^5.6.4",
+    "bluebird": "^2.9.30",
+    "cheerio": "^0.19.0",
+    "superagent": "^1.2.0",
+    "superagent-bluebird-promise": "^2.0.2",
+    "tmp": "0.0.26"
+  }
+}
