@@ -1,5 +1,6 @@
 require('babel/register')
 
+var _ = require("lodash")
 var gulp = require('gulp')
 var $ = require("gulp-load-plugins")()
 
