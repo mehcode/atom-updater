@@ -1,4 +1,7 @@
 # atom-updater
+[![npm](https://img.shields.io/npm/dm/atom-updater.svg)](https://www.npmjs.com/package/atom-updater)
+
+Automatic updates (on Linux) for the Atom text editor.
 
 ## Install
 
