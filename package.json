@@ -1,7 +1,7 @@
 {
   "name": "atom-updater",
   "version": "0.3.0",
-  "description": "",
+  "description": "Automatic updates (on Linux) for the Atom text editor",
   "main": "index.js",
   "bin": "index.js",
   "author": "Ryan Leckey <leckey.ryan@gmail.com>",
