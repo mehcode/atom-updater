@@ -1,0 +1,9 @@
+[Unit]
+Description=Atom Updater
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "atom-updater"
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Atom Updater
+
+[Timer]
+Persistent=true
+OnUnitActiveSec=10s
+OnBootSec=10s
+
+[Install]
+WantedBy=timers.target

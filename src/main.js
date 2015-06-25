@@ -58,17 +58,6 @@ async function installVersion(version) {
   });
 }
 
-function input() {
-  return new Promise(function(resolve) {
-    process.stdin.resume();
-    process.stdin.setEncoding('utf8');
-    process.stdin.on("data", function(text) {
-      process.stdin.pause();
-      resolve(text);
-    });
-  })
-}
-
 async function main() {
   console.log("\x1b[1;37m[*] Checking for installed version...\x1b[0m");
   let installedVersion = getInstalledVersion();
@@ -90,13 +79,7 @@ async function main() {
     return;
   }
 
-  console.log("");
-  process.stdout.write("\x1b[1;37m[?] Install latest version (y/N): \x1b[0m");
-  let choice = (await input()).trim();
-
-  if (choice.toLowerCase() === "y") {
-    installVersion(latestVersion);
-  }
+  installVersion(latestVersion);
 }
 
 export default main;
