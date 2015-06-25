@@ -1,6 +1,6 @@
 {
   "name": "atom-updater",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Automatic updates (on Linux) for the Atom text editor",
   "main": "index.js",
   "bin": "index.js",
