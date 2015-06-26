@@ -3,8 +3,8 @@ Description=Atom Updater
 
 [Timer]
 Persistent=true
-OnUnitActiveSec=10s
-OnBootSec=10s
+OnUnitActiveSec=30min
+OnBootSec=30s
 
 [Install]
 WantedBy=timers.target
