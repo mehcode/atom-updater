@@ -58,7 +58,7 @@ async function installVersion(version) {
   });
 }
 
-async function main() {
+async function main(beta = false) {
   console.log("\x1b[1;37m[*] Checking for installed version...\x1b[0m");
   let installedVersion = getInstalledVersion();
   if (installedVersion == null) {
@@ -67,11 +67,19 @@ async function main() {
     console.log("\x1b[0;36m - %s\x1b[0m", installedVersion)
   }
 
+  let latestVersion;
+
   console.log("");
   console.log("\x1b[1;37m[*] Checking for latest version...\x1b[0m");
-  let res = await request.get("https://github.com/atom/atom/releases/latest");
-  let $ = cheerio.load(res.text);
-  let latestVersion = $(".release-title").text().trim();
+  if (beta) {
+    let res = await request.get("https://github.com/atom/atom/releases");
+    let $ = cheerio.load(res.text);
+    latestVersion = $(".release-title").first().text().trim();
+  } else {
+    let res = await request.get("https://github.com/atom/atom/releases/latest");
+    let $ = cheerio.load(res.text);
+    latestVersion = $(".release-title").text().trim();
+  }
   console.log("\x1b[0;36m - %s\x1b[0m", latestVersion);
 
   if (installedVersion === latestVersion) {
