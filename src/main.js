@@ -24,8 +24,35 @@ async function installVersion(version) {
   console.log("\x1b[1;37m[*] Downloading version v%s...\x1b[0m", version);
   var filename = tmp.tmpNameSync();
   var file = fs.createWriteStream(filename);
+  var atomLatest = "atom-amd64.deb"
+  var cmd = "dpkg"
+  console.log("\x1b[1;37m[*] Checking OS... v%s...\x1b[0m", version);
+  await new Promise(function(resolve) {
+    fs.stat("/etc/redhat-release", function(err0, stat0) {
+      if (err0) {
+        fs.stat("/etc/debian_version", function(err1, stat1) {
+          if (err1) {
+            return console.log("Not supported")
+          }
+          cmd = "dpkg"
+          atomLatest = "atom-amd64.deb"
+          resolve()
+        })
+      } else {
+        atomLatest = "atom.x86_64.rpm"
+        fs.stat("/usr/bin/dnf", function(err2, stat2) {
+          if (err2) {
+            cmd = "yum"
+          } else {
+            cmd = "dnf"
+          }
+          resolve()
+        })
+      }
+    })
+  })
 
-  var url = `https://github.com/atom/atom/releases/download/v${version}/atom-amd64.deb`
+  var url = `https://github.com/atom/atom/releases/download/v${version}/${atomLatest}`
   await new Promise(function(resolve) {
     var process = child.spawn("curl", ["-L", url], {
       stdio: ["ignore", "pipe", "inherit"]
@@ -40,7 +67,9 @@ async function installVersion(version) {
     });
 
     process.on("exit", function() {
-      resolve();
+      fs.rename(filename, `/tmp/${version}_${atomLatest}`, function() {
+        resolve();
+      })
     });
   })
 
@@ -48,11 +77,18 @@ async function installVersion(version) {
   console.log("\x1b[1;37m[*] Installing version v%s...\x1b[0m", version);
 
   await new Promise(function(resolve) {
-    var process = child.spawn("sudo", ["dpkg", "-i", filename], {
-      stdio: ["ignore", "inherit", "inherit"]
-    });
-
-    process.on("exit", function() {
+    var process = null
+    if (cmd === "dpkg") {
+      process = child.spawn("sudo", [cmd, "-i", `/tmp/v${version}_${atomLatest}`], {
+        stdio: ["ignore", "inherit", "inherit"]
+      });
+    } else {
+      console.log(`${cmd} install /tmp/v${version}_${atomLatest}`)
+      process = child.spawn("sudo", [cmd, "install", "-y", `/tmp/v${version}_${atomLatest}`], {
+        stdio: ["ignore", "inherit", "inherit"]
+      })
+    }
+    process.on("exit", function(result) {
       resolve();
     });
   });
