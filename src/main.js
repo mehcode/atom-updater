@@ -67,7 +67,7 @@ async function installVersion(version) {
     });
 
     process.on("exit", function() {
-      fs.rename(filename, `/tmp/${version}_${atomLatest}`, function() {
+      fs.rename(filename, `/tmp/v${version}_${atomLatest}`, function() {
         resolve();
       })
     });
