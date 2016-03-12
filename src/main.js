@@ -4,9 +4,10 @@ import cheerio from "cheerio";
 import request from "superagent-bluebird-promise";
 import tmp from "tmp";
 
-function getInstalledVersion() {
+function getInstalledVersion(beta) {
   try {
-    return child.execSync("atom --version", {
+    let exec = beta ? 'atom-beta' : 'atom';
+    return child.execSync(exec + " --version", {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"]
     }).trim();
@@ -94,9 +95,9 @@ async function installVersion(version) {
   });
 }
 
-async function main() {
+async function main(argv) {
   console.log("\x1b[1;37m[*] Checking for installed version...\x1b[0m");
-  let installedVersion = getInstalledVersion();
+  let installedVersion = getInstalledVersion(argv.b);
   if (installedVersion == null) {
     console.log("\x1b[0;36m - (not installed)\x1b[0m")
   } else {
@@ -105,9 +106,11 @@ async function main() {
 
   console.log("");
   console.log("\x1b[1;37m[*] Checking for latest version...\x1b[0m");
-  let res = await request.get("https://github.com/atom/atom/releases/latest");
-  let $ = cheerio.load(res.text);
-  let latestVersion = $(".release-title").text().trim();
+  let res = await request.get("https://api.github.com/repos/atom/atom/releases");
+  let release = res.body.find((release) => {
+    return release.prerelease === argv.b;
+  });
+  let latestVersion = release.name;
   console.log("\x1b[0;36m - %s\x1b[0m", latestVersion);
 
   if (installedVersion === latestVersion) {
