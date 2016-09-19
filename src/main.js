@@ -6,10 +6,11 @@ import tmp from "tmp";
 
 function getInstalledVersion() {
   try {
-    return child.execSync("atom --version", {
+    const version = child.execSync("atom --version", {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"]
     }).trim();
+    return version.match(/^Atom *: *([0-9.]*)$/m)[1] || version;
   } catch (err) {
     if (err.status === 127) {
       return null;
